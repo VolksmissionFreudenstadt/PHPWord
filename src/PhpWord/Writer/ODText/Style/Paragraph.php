@@ -26,7 +26,9 @@ class Paragraph extends AbstractStyle
 {
 
     /**
-     * Write style
+     * Write style.
+     *
+     * @return void
      */
     public function write()
     {

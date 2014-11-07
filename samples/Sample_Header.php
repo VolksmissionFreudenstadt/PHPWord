@@ -1,10 +1,12 @@
 <?php
+
+date_default_timezone_set('Europe/Paris');
+
 /**
  * Header file
  */
 use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\IOFactory;
 
 error_reporting(E_ALL);
 define('CLI', (PHP_SAPI == 'cli') ? true : false);
@@ -59,12 +61,11 @@ function write($phpWord, $filename, $writers)
     $result = '';
 
     // Write documents
-    foreach ($writers as $writer => $extension) {
-        $result .= date('H:i:s') . " Write to {$writer} format";
-        if (!is_null($extension)) {
-            $xmlWriter = IOFactory::createWriter($phpWord, $writer);
-            $xmlWriter->save(__DIR__ . "/{$filename}.{$extension}");
-            rename(__DIR__ . "/{$filename}.{$extension}", __DIR__ . "/results/{$filename}.{$extension}");
+    foreach ($writers as $format => $extension) {
+        $result .= date('H:i:s') . " Write to {$format} format";
+        if ($extension !== null) {
+            $targetFile = __DIR__ . "/results/{$filename}.{$extension}";
+            $phpWord->save($targetFile, $format);
         } else {
             $result .= ' ... NOT DONE!';
         }
@@ -144,7 +145,7 @@ function getEndingNotes($writers)
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/PHPOffice/PHPWord"><i class="fa fa-github fa-lg" title="GitHub"></i>&nbsp;</a></li>
-                <li><a href="http://phpword.readthedocs.org/en/develop/"><i class="fa fa-book fa-lg" title="Docs"></i>&nbsp;</a></li>
+                <li><a href="http://phpword.readthedocs.org/"><i class="fa fa-book fa-lg" title="Docs"></i>&nbsp;</a></li>
                 <li><a href="http://twitter.com/PHPWord"><i class="fa fa-twitter fa-lg" title="Twitter"></i>&nbsp;</a></li>
             </ul>
         </div>

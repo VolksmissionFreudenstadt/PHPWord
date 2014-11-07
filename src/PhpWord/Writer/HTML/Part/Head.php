@@ -18,9 +18,9 @@
 namespace PhpOffice\PhpWord\Writer\HTML\Part;
 
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Paragraph;
+use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Writer\HTML\Style\Font as FontStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Generic as GenericStyleWriter;
 use PhpOffice\PhpWord\Writer\HTML\Style\Paragraph as ParagraphStyleWriter;
@@ -39,7 +39,7 @@ class Head extends AbstractPart
      */
     public function write()
     {
-        $docProps = $this->getParentWriter()->getPhpWord()->getDocumentProperties();
+        $docProps = $this->getParentWriter()->getPhpWord()->getDocInfo();
         $propertiesMapping = array(
             'creator' => 'author',
             'title' => '',
@@ -71,6 +71,7 @@ class Head extends AbstractPart
 
         return $content;
     }
+
     /**
      * Get styles
      *
@@ -95,6 +96,14 @@ class Head extends AbstractPart
                 'margin' => '1em 0',
                 'border' => '0',
                 'border-top' => '1px solid #CCC',
+            ),
+            'table' => array(
+                'border' => '1px solid black',
+                'border-spacing' => '0px',
+                'width' => '100%',
+            ),
+            'td' => array(
+                'border' => '1px solid black',
             ),
         );
         foreach ($defaultStyles as $selector => $style) {
